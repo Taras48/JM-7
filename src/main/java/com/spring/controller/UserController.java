@@ -58,6 +58,8 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         User user = userService.getUserById(messageUser.getId());
         user.setRoles(roleService.getRoleByString(role));
+        user.setMessage(messageUser.getMessage());
+        user.setName(messageUser.getName());
         userService.updateUser(user);
         modelAndView.setViewName("redirect:/admin");
         return modelAndView;
