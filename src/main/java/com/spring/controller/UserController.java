@@ -30,13 +30,6 @@ public class UserController {
     }
 
 
-
-    /*@PostMapping(value = "login")
-    public ModelAndView getIndexPost(ModelAndView modelAndView) {
-        modelAndView.setViewName("redirect:/");
-        return modelAndView;
-    }*/
-
     @GetMapping(value = "/helloUser")
     public String getUserGet() {
         return "helloUser";
