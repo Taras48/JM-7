@@ -19,10 +19,10 @@
     <a href="/logout">logout</a>
 </p>
 <form action="/admin/update" method="post">
-    <p>Id for update User: <input type="number" name="testId"  disabled value="${param.id}"/>
-        NewName: <input type="text" name="newName" value="${param.name}"/>
-        NewMail: <input type="text" name="newMail"value="${param.mail}" /></p>
-    <p>NewPassword: <input type="password" name="newPassword" value="${param.password}">
+    <p> <input type="hidden" name="id"  disabled value="${param.id}"/>
+        NewName: <input type="text" name="name" value="${param.name}"/>
+        NewMail: <input type="text" name="message"value="${param.message}" /></p>
+    <p>NewPassword: <input type="password" name="password" value="${param.password}">
         Role:<select type="text" name="role" >
             <option value="user">User</option>
             <option value="admin">Admin</option>
