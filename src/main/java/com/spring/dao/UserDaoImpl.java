@@ -9,59 +9,48 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
 
 
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public UserDaoImpl() {
     }
 
+
     public void addUser(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.save(user);
-        System.out.println("user add ");
+        entityManager.persist(user);
     }
 
     public void updateUser(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(user);
-        System.out.println("user update");
+        entityManager.merge(user);
     }
 
     public void deletUser(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        User user = session.get(User.class, id);
-        session.delete(user);
-        System.out.println("user delete");
+        entityManager.remove(getUserById(id));
     }
 
     public User getUserById(Long id) {
-        Session session = sessionFactory.getCurrentSession();
-        User user = session.get(User.class, id);
-        System.out.println("user get by id");
-        return user;
+        return entityManager.find(User.class, id);
     }
 
     @Override
     public User getUserByName(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from User where name = :name");
-        query.setParameter("name", name);
-        User user = (User) query.uniqueResult();
+        User user = (User) entityManager.createQuery(
+                "from User where name = :name")
+                .setParameter("name", name).getSingleResult();
         return user;
     }
 
     public List<User> getAllUsers() {
-        Session session = sessionFactory.getCurrentSession();
-        List<User> listUsers = session.createQuery("from User").list();
-        System.out.println("get all users");
-        return listUsers;
+        return entityManager.createQuery("from User").getResultList();
     }
 
 
